@@ -20,7 +20,7 @@ sealed class Screen(val route: String) {
 }
 
 @Composable
-fun ConfamGbeduApp(appState: ConfamGbeduAppState = rememberConfamGbeduAppState()) {
+fun ConfamGbeduRoot(appState: ConfamGbeduAppState = rememberConfamGbeduAppState()) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -33,9 +33,7 @@ fun ConfamGbeduApp(appState: ConfamGbeduAppState = rememberConfamGbeduAppState()
             }
             composable(Screen.Gbedu.route) { backStackEntry ->
                 val arg = backStackEntry.arguments?.getString("gbebuId")
-                requireNotNull(arg) {
-                    "Gbedu Id should not be null"
-                }
+                requireNotNull(arg) { "Gbedu Id should not be null" }
                 val gbeduId = GbeduId(arg.toLong())
                 GbeduScreen(gbeduId) {
                     appState.navigateBack()

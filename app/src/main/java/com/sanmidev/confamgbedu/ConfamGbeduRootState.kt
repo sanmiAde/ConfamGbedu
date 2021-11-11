@@ -12,7 +12,6 @@ fun rememberConfamGbeduAppState(
     ConfamGbeduAppState(navController)
 }
 
-
 class ConfamGbeduAppState(
     val navController: NavHostController
 ) {
