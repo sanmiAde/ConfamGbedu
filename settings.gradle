@@ -6,8 +6,8 @@ pluginManagement {
     }
     resolutionStrategy {
         eachPlugin {
-            if( requested.id.id == 'dagger.hilt.android.plugin') {
-                useModule("com.google.dagger:hilt-android-gradle-plugin:2.39.1")
+            if( requested.id.id == 'app.cash.molecule') {
+                useModule("app.cash.molecule:molecule-gradle-plugin:0.1.0")
             }
         }
     }
