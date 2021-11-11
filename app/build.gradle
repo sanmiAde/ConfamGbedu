@@ -81,6 +81,7 @@ dependencies {
     // Material design icons
     implementation("androidx.compose.material:material-icons-core:1.0.5")
     implementation("androidx.compose.material:material-icons-extended:1.0.5")
+    implementation("androidx.navigation:navigation-compose:2.4.0-beta02")
     // Integration with observables
     implementation 'com.airbnb.android:mavericks:2.4.0'
     implementation 'com.airbnb.android:mavericks-compose:2.1.0-alpha01'
