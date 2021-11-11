@@ -9,7 +9,7 @@ import com.sanmidev.confamgbedu.ui.theme.ConfamGbeduTheme
 
 @Composable
 fun GdebuListScreen(navigateToDetails: (gbeduId: GbeduId) -> Unit) {
-    Button(onClick = { navigateToDetails(GbeduId(1)) }) {
+    Button(onClick = { navigateToDetails(GbeduId(109)) }) {
         Greeting(name = "Hello")
     }
 }

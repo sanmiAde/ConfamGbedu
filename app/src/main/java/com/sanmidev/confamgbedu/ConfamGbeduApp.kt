@@ -12,10 +12,9 @@ import com.sanmidev.confamgbedu.ui.gbedu.GbeduScreen
 import com.sanmidev.confamgbedu.ui.gdebuList.GdebuListScreen
 
 
-//TODO: [oa_2021-11-11] Add navigation component or any navigation library
 sealed class Screen(val route: String) {
     object GbeduList : Screen("gbeduList")
-    object Gbedu : Screen("gbeduList/{id}/gbedu") {
+    object Gbedu : Screen("gbeduList/{gbebuId}/gbedu") {
         fun createRoute(gbeduId: GbeduId) = "gbeduList/${gbeduId.value}/gbedu"
     }
 }
@@ -28,12 +27,17 @@ fun ConfamGbeduApp(appState: ConfamGbeduAppState = rememberConfamGbeduAppState()
     ) {
         NavHost(navController = appState.navController, startDestination = Screen.GbeduList.route) {
             composable(Screen.GbeduList.route) {
-                GdebuListScreen() { gbeduId: GbeduId ->
+                GdebuListScreen { gbeduId: GbeduId ->
                     appState.navController.navigate(Screen.Gbedu.createRoute(gbeduId = gbeduId))
                 }
             }
-            composable(Screen.Gbedu.route) {
-                GbeduScreen {
+            composable(Screen.Gbedu.route) { backStackEntry ->
+                val arg = backStackEntry.arguments?.getString("gbebuId")
+                requireNotNull(arg) {
+                    "Gbedu Id should not be null"
+                }
+                val gbeduId = GbeduId(arg.toLong())
+                GbeduScreen(gbeduId) {
                     appState.navigateBack()
                 }
             }
