@@ -1,18 +1,18 @@
 package com.sanmidev.confamgbedu.data.local
 
+import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.sanmidev.confamgbedu.domain.model.*
 
 @Entity(tableName = "gbedu")
 data class GbeduEntity(
+    @PrimaryKey(autoGenerate = true)
     val id: Long,
     val name: String,
     val artistName: String,
-    @Embedded
     val rating: Rating,
-    @Embedded
-    val releaseType: ReleaseType,
     @Embedded
     val meta: Meta
 ) {
@@ -21,7 +21,6 @@ data class GbeduEntity(
         name = name,
         artistName = artistName,
         rating = rating,
-        releaseType = releaseType,
         meta = meta
     )
 
@@ -31,7 +30,6 @@ data class GbeduEntity(
             name = gbedu.name,
             artistName = gbedu.artistName,
             rating = gbedu.rating,
-            releaseType = gbedu.releaseType,
             meta = gbedu.meta
         )
     }

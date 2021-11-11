@@ -5,6 +5,5 @@ data class Gbedu(
     val name: String,
     val artistName: String,
     val rating: Rating,
-    val releaseType: ReleaseType,
     val meta: Meta
 )
