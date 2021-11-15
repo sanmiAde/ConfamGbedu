@@ -12,5 +12,5 @@ interface GbeduDao {
     suspend fun updateGbedu(gbeduEntity: GbeduEntity)
 
     @Query("SELECT * FROM gbedu")
-    fun getGbedus(): Flow<List<GbeduEntity>>
+    suspend fun getGbedus(): List<GbeduEntity>
 }
