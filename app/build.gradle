@@ -82,4 +82,6 @@ dependencies {
     // Integration with observables
     implementation 'com.airbnb.android:mavericks:2.4.0'
     implementation 'com.airbnb.android:mavericks-compose:2.1.0-alpha02'
+    //Ratingbar
+    implementation 'com.github.a914-gowtham:compose-ratingbar:1.1.1'
 }
