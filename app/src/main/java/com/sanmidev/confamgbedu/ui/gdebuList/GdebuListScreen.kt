@@ -57,7 +57,7 @@ fun GbeduRow(gbedu: Gbedu, onNavigateAction: () -> Unit) {
 
 @Composable
 fun RatingsComponent(rating: Rating) {
-    repeat(rating.value) {
+    repeat(rating.value.toInt()) {
         Image(
             painter = painterResource(R.drawable.ic_ratings_24),
             contentDescription = "Ratings",
