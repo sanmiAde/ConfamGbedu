@@ -9,7 +9,6 @@ class ConfamGbeduApplication : Application() {
         super.onCreate()
         Graph.provide(this)
         Graph.seed()
-
         Mavericks.initialize(this)
     }
 }

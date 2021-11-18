@@ -26,7 +26,7 @@ import kotlinx.datetime.toLocalDateTime
 @Composable
 fun GdebuListScreen(navigateToDetails: (gbeduId: GbeduId) -> Unit) {
     val viewmodel: GbeduListViewModel = mavericksViewModel()
-    val gbeduList by viewmodel.collectAsState() { it.gbeduList }
+    val gbeduList by viewmodel.collectAsState(GbeduListState::gbeduList)
     LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)) {
         items(gbeduList) { gbedu ->
             GbeduRow(gbedu) {
