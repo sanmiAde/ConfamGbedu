@@ -15,7 +15,7 @@ class GbeduListViewModel(initialState: GbeduListState, private val gbeduDao: Gbe
     }
 
     private fun getGbeduList() {
-        suspend { gbeduDao.getGbedus() }.execute(Dispatchers.IO) {
+        gbeduDao.getGbedus().execute(Dispatchers.IO) {
             copy(
                 gbeduList = it.invoke()?.map { gbeduEntity -> gbeduEntity.toDomain() }
                     ?: emptyList(),
