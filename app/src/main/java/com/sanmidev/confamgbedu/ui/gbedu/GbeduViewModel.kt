@@ -2,6 +2,7 @@ package com.sanmidev.confamgbedu.ui.gbedu
 
 import com.airbnb.mvrx.MavericksViewModel
 import com.sanmidev.confamgbedu.domain.model.Rating
+import com.sanmidev.confamgbedu.domain.model.ReleaseType
 
 class GbeduViewModel(gbeduState: GbeduState) : MavericksViewModel<GbeduState>(gbeduState) {
 
@@ -15,5 +16,9 @@ class GbeduViewModel(gbeduState: GbeduState) : MavericksViewModel<GbeduState>(gb
 
     fun updateGbeduRating(rating: Float) {
         setState { copy(rating = Rating.processUserRating(rating)) }
+    }
+
+    fun updateGbeduReleaseType(releaseType: ReleaseType) {
+        setState { copy(selectedReleaseType = releaseType) }
     }
 }
