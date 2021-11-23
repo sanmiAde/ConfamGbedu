@@ -37,20 +37,4 @@ object Graph {
             }
         }).build()
     }
-
-    fun seed() {
-        runBlocking {
-            repeat(10) {
-                database.gbeduDao().insertGbedu(
-                    GbeduEntity(
-                        0, "legendary$it", "Mike$it", Rating.EIGHT, Meta(
-                            ReleaseType.EP, Clock.System.now().toLocalDateTime(
-                                TimeZone.UTC
-                            ), Clock.System.now().toLocalDateTime(TimeZone.UTC)
-                        )
-                    )
-                )
-            }
-        }
-    }
 }

@@ -8,7 +8,7 @@ class ConfamGbeduApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         Graph.provide(this)
-        Graph.seed()
+
         Mavericks.initialize(this)
     }
 }

@@ -4,9 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.PlusOne
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -27,13 +28,21 @@ import kotlinx.datetime.toLocalDateTime
 fun GdebuListScreen(navigateToDetails: (gbeduId: GbeduId) -> Unit) {
     val viewmodel: GbeduListViewModel = mavericksViewModel()
     val gbeduList by viewmodel.collectAsState(GbeduListState::gbeduList)
-    LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)) {
-        items(gbeduList) { gbedu ->
-            GbeduRow(gbedu) {
-                navigateToDetails(gbedu.gbeduId)
+    Column() {
+        LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)) {
+            items(gbeduList) { gbedu ->
+                GbeduRow(gbedu) {
+                    navigateToDetails(gbedu.gbeduId)
+                }
             }
         }
+        FloatingActionButton(onClick = {
+            navigateToDetails(GbeduId(1))
+        }) {
+            Icon(imageVector = Icons.Filled.Add, contentDescription = "Add new gbedu" )
+        }
     }
+   
 }
 
 @OptIn(ExperimentalMaterialApi::class)

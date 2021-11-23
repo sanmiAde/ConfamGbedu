@@ -43,7 +43,7 @@ fun GbeduScreen(id: GbeduId, onBackPressed: () -> Unit) {
             viewModel.updateGbeduReleaseType(releaseType = it)
         }
         SubmitButton(isValid = gbeduState.isValid) {
-            Toast.makeText(context, "$gbeduState", Toast.LENGTH_SHORT).show()
+            viewModel.storeGbedu(gbeduState)
         }
     }
 
