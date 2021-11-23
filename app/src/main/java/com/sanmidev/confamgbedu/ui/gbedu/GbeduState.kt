@@ -10,7 +10,7 @@ data class GbeduState(
     val rating: Rating = Rating.ZERO,
     val selectedReleaseType: ReleaseType = ReleaseType.SINGLE
 ) : MavericksState {
-    val isValid = name.isNotBlank() && artistName.isNotBlank()
+    val isValid = name.isNotBlank() && artistName.isNotBlank() && rating != Rating.ZERO
     val availableReleaseTypes: List<ReleaseType> =
         listOf(ReleaseType.LP, ReleaseType.EP, ReleaseType.SINGLE)
 }
