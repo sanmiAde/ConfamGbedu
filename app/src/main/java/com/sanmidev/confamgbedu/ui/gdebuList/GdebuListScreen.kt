@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.sanmidev.confamgbedu.R
+import com.sanmidev.confamgbedu.Screen
 import com.sanmidev.confamgbedu.domain.model.*
 import com.sanmidev.confamgbedu.ui.theme.ConfamGbeduTheme
 import kotlinx.datetime.Clock
@@ -25,16 +26,21 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 @Composable
-fun GdebuListScreen(navigateToDetails: (gbeduId: GbeduId) -> Unit) {
+fun GdebuListScreen(navigateToDetails: (gbeduId: GbeduId, mode: Screen.Gbedu.Mode) -> Unit) {
     val viewmodel: GbeduListViewModel = mavericksViewModel()
     val gbeduList by viewmodel.collectAsState(GbeduListState::gbeduList)
     Column() {
         LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)) {
             items(gbeduList) { gbedu ->
                 GbeduRow(gbedu) {
-                    navigateToDetails(gbedu.gbeduId)
+                    navigateToDetails(gbedu.gbeduId, Screen.Gbedu.Mode.EDIT)
                 }
             }
+        }
+        FloatingActionButton(onClick = {
+            navigateToDetails(GbeduId(1), Screen.Gbedu.Mode.ADD)
+        }) {
+            Icon(imageVector = Icons.Filled.Add, contentDescription = "Add new gbedu" )
         }
     }
 

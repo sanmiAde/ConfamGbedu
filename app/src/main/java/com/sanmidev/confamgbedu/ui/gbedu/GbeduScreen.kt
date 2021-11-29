@@ -1,7 +1,5 @@
 package com.sanmidev.confamgbedu.ui.gbedu
 
-import android.widget.Toast
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
@@ -9,43 +7,50 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.sanmidev.confamgbedu.domain.model.GbeduId
-import androidx.compose.ui.platform.LocalContext
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarStyle
+import com.sanmidev.confamgbedu.Screen
 import com.sanmidev.confamgbedu.domain.model.ReleaseType
 
 
 @Composable
-fun GbeduScreen(id: GbeduId, onBackPressed: () -> Unit) {
+fun GbeduScreen(id: GbeduId, mode: Screen.Gbedu.Mode, onBackPressed: () -> Unit) {
     val viewModel: GbeduViewModel = mavericksViewModel()
     val gbeduState by viewModel.collectAsState()
-    val context = LocalContext.current
-    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        InputField(name = gbeduState.name, "Name") {
-            viewModel.updateGbeduName(it)
+    when (mode) {
+        Screen.Gbedu.Mode.ADD -> {
+            Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                InputField(name = gbeduState.name, "Name") {
+                    viewModel.updateGbeduName(it)
+                }
+                InputField(name = gbeduState.artistName, "Artist Name") {
+                    viewModel.updateArtistName(it)
+                }
+                RatingBar(
+                    value = gbeduState.rating.value,
+                    ratingBarStyle = RatingBarStyle.HighLighted, onValueChange = {
+                        viewModel.updateGbeduRating(it)
+                    }, numStars = 10
+                ) {
+                }
+                ReleaseTypeDropDown(
+                    releaseTypes = gbeduState.availableReleaseTypes,
+                    selectedReleaseType = gbeduState.selectedReleaseType
+                ) {
+                    viewModel.updateGbeduReleaseType(releaseType = it)
+                }
+                SubmitButton(isValid = gbeduState.isValid) {
+                    viewModel.storeGbedu(gbeduState)
+                }
+            }
         }
-        InputField(name = gbeduState.artistName, "Artist Name") {
-            viewModel.updateArtistName(it)
-        }
-        RatingBar(
-            value = gbeduState.rating.value,
-            ratingBarStyle = RatingBarStyle.HighLighted, onValueChange = {
-                viewModel.updateGbeduRating(it)
-            }, numStars = 10
-        ) {
-        }
-        ReleaseTypeDropDown(
-            releaseTypes = gbeduState.availableReleaseTypes,
-            selectedReleaseType = gbeduState.selectedReleaseType
-        ) {
-            viewModel.updateGbeduReleaseType(releaseType = it)
-        }
-        SubmitButton(isValid = gbeduState.isValid) {
-            viewModel.storeGbedu(gbeduState)
+        Screen.Gbedu.Mode.EDIT -> {
+            Text("Edit")
         }
     }
+
 
 }
 

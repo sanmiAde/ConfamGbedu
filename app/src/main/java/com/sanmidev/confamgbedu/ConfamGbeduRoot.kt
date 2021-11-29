@@ -14,8 +14,14 @@ import com.sanmidev.confamgbedu.ui.gdebuList.GdebuListScreen
 
 sealed class Screen(val route: String) {
     object GbeduList : Screen("gbeduList")
-    object Gbedu : Screen("gbeduList/{gbebuId}/gbedu") {
-        fun createRoute(gbeduId: GbeduId) = "gbeduList/${gbeduId.value}/gbedu"
+    object Gbedu : Screen("gbeduList/{gbebuId}/gbedu?mode={mode}") {
+        enum class Mode {
+            ADD,
+            EDIT
+        }
+
+        fun createRoute(gbeduId: GbeduId, mode: Mode) =
+            "gbeduList/${gbeduId.value}/gbedu?mode=${mode}"
     }
 }
 
@@ -27,18 +33,26 @@ fun ConfamGbeduRoot(appState: ConfamGbeduAppState = rememberConfamGbeduAppState(
     ) {
         NavHost(navController = appState.navController, startDestination = Screen.GbeduList.route) {
             composable(Screen.GbeduList.route) {
-                GdebuListScreen { gbeduId: GbeduId ->
-                    appState.navController.navigate(Screen.Gbedu.createRoute(gbeduId = gbeduId))
+                GdebuListScreen { gbeduId: GbeduId, mode: Screen.Gbedu.Mode ->
+                    appState.navController.navigate(
+                        Screen.Gbedu.createRoute(
+                            gbeduId = gbeduId,
+                            mode
+                        )
+                    )
                 }
             }
             composable(Screen.Gbedu.route) { backStackEntry ->
                 val arg = backStackEntry.arguments?.getString("gbebuId")
                 requireNotNull(arg) { "Gbedu Id should not be null" }
+                val mode = backStackEntry.arguments?.getString("mode")!!
+                    .run { Screen.Gbedu.Mode.valueOf(this) }
                 val gbeduId = GbeduId(arg.toLong())
-                GbeduScreen(gbeduId) {
+                GbeduScreen(gbeduId, mode) {
                     appState.navigateBack()
                 }
             }
         }
     }
+
 }
