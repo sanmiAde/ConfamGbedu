@@ -36,13 +36,8 @@ fun GdebuListScreen(navigateToDetails: (gbeduId: GbeduId) -> Unit) {
                 }
             }
         }
-        FloatingActionButton(onClick = {
-            navigateToDetails(GbeduId(1))
-        }) {
-            Icon(imageVector = Icons.Filled.Add, contentDescription = "Add new gbedu" )
-        }
     }
-   
+
 }
 
 @OptIn(ExperimentalMaterialApi::class)
