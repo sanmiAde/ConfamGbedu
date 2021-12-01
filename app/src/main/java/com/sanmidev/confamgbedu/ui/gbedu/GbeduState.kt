@@ -12,7 +12,9 @@ data class GbeduState(
     val artistName: String = "",
     val rating: Rating = Rating.ZERO,
     val selectedReleaseType: ReleaseType = ReleaseType.SINGLE,
-    val storeGbeduRequest: Async<Unit> = Uninitialized
+    val storeGbeduRequest: Async<Unit> = Uninitialized,
+    //todo move this to an edit detail screen. Managing edit state and create gbedu state is becoming difficult.
+    val getGbeduRequest: Async<GbeduEntity> = Uninitialized
 ) : MavericksState {
     val isValid = name.isNotBlank() && artistName.isNotBlank() && rating != Rating.ZERO
     val availableReleaseTypes: List<ReleaseType> =

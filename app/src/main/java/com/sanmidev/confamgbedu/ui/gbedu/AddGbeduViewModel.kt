@@ -2,20 +2,17 @@ package com.sanmidev.confamgbedu.ui.gbedu
 
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
-import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.ViewModelContext
 import com.sanmidev.confamgbedu.data.local.GbeduDao
 import com.sanmidev.confamgbedu.data.local.GbeduEntity
 import com.sanmidev.confamgbedu.di.Graph
 import com.sanmidev.confamgbedu.domain.model.*
-import com.sanmidev.confamgbedu.ui.gdebuList.GbeduListState
-import com.sanmidev.confamgbedu.ui.gdebuList.GbeduListViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-class GbeduViewModel(gbeduState: GbeduState, private val gbeduDao: GbeduDao) :
+class AddGbeduViewModel(gbeduState: GbeduState, private val gbeduDao: GbeduDao) :
     MavericksViewModel<GbeduState>(gbeduState) {
 
     fun updateGbeduName(name: String) {
@@ -57,19 +54,25 @@ class GbeduViewModel(gbeduState: GbeduState, private val gbeduDao: GbeduDao) :
         }
     }
 
+    fun getGbeduRequest(id: Long) {
+        suspend { gbeduDao.getGbedu(id) }.execute(Dispatchers.IO) {
+            copy(getGbeduRequest = it,)
+        }
+    }
+
     /**
      * If you implement MvRxViewModelFactory in your companion object, MvRx will use that to create
      * your ViewModel. You can use this to achieve constructor dependency injection with Mavericks.
      *
      * @see MavericksViewModelFactory
      */
-    companion object : MavericksViewModelFactory<GbeduViewModel, GbeduState> {
+    companion object : MavericksViewModelFactory<AddGbeduViewModel, GbeduState> {
         override fun create(
             viewModelContext: ViewModelContext,
             state: GbeduState
-        ): GbeduViewModel {
+        ): AddGbeduViewModel {
             val gbeduDao = Graph.database.gbeduDao()
-            return GbeduViewModel(state, gbeduDao)
+            return AddGbeduViewModel(state, gbeduDao)
         }
     }
 }

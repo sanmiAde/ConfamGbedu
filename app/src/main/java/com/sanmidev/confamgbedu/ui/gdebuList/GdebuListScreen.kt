@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.PlusOne
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -25,22 +24,27 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
+sealed interface GbebuListEvent {
+    object AddGbedu : GbebuListEvent
+    class EditGbedu(val gbeduId: GbeduId) : GbebuListEvent
+}
+
 @Composable
-fun GdebuListScreen(navigateToDetails: (gbeduId: GbeduId, mode: Screen.Gbedu.Mode) -> Unit) {
+fun GdebuListScreen(navigateToDetails: (GbebuListEvent) -> Unit) {
     val viewmodel: GbeduListViewModel = mavericksViewModel()
     val gbeduList by viewmodel.collectAsState(GbeduListState::gbeduList)
     Column() {
         LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)) {
             items(gbeduList) { gbedu ->
                 GbeduRow(gbedu) {
-                    navigateToDetails(gbedu.gbeduId, Screen.Gbedu.Mode.EDIT)
+                    navigateToDetails(GbebuListEvent.EditGbedu(gbedu.gbeduId))
                 }
             }
         }
         FloatingActionButton(onClick = {
-            navigateToDetails(GbeduId(1), Screen.Gbedu.Mode.ADD)
+            navigateToDetails(GbebuListEvent.AddGbedu)
         }) {
-            Icon(imageVector = Icons.Filled.Add, contentDescription = "Add new gbedu" )
+            Icon(imageVector = Icons.Filled.Add, contentDescription = "Add new gbedu")
         }
     }
 

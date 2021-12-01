@@ -1,6 +1,7 @@
 package com.sanmidev.confamgbedu.data.local
 
 import androidx.room.*
+import com.sanmidev.confamgbedu.domain.model.GbeduId
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -13,4 +14,7 @@ interface GbeduDao {
 
     @Query("SELECT * FROM gbedu")
     fun getGbedus(): Flow<List<GbeduEntity>>
+
+    @Query("SELECT * FROM gbedu WHERE id = :id")
+    suspend fun getGbedu(id: Long): GbeduEntity
 }
