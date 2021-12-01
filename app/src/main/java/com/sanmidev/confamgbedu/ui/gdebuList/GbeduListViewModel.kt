@@ -6,6 +6,7 @@ import com.airbnb.mvrx.ViewModelContext
 import com.sanmidev.confamgbedu.data.local.GbeduDao
 import com.sanmidev.confamgbedu.di.Graph
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.map
 
 class GbeduListViewModel(initialState: GbeduListState, private val gbeduDao: GbeduDao) :
     MavericksViewModel<GbeduListState>(initialState) {
@@ -15,10 +16,8 @@ class GbeduListViewModel(initialState: GbeduListState, private val gbeduDao: Gbe
     }
 
     private fun getGbeduList() {
-        gbeduDao.getGbedus().execute(Dispatchers.IO) {
+        gbeduDao.getGbedus().map { list -> list.map { it.toDomain() } }.execute(Dispatchers.IO) {
             copy(
-                gbeduList = it.invoke()?.map { gbeduEntity -> gbeduEntity.toDomain() }
-                    ?: emptyList(),
                 gbeduListRequest = it
             )
         }

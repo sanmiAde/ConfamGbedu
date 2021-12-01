@@ -18,6 +18,9 @@ fun AddGbeduScreen(onBackPressed: () -> Unit) {
     val viewModel: AddGbeduViewModel = mavericksViewModel()
     val gbeduState by viewModel.collectAsState()
 
+    when(gbeduState.getGbeduRequest) {
+
+    }
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -45,8 +48,6 @@ fun AddGbeduScreen(onBackPressed: () -> Unit) {
             viewModel.storeGbedu(gbeduState)
         }
     }
-
-
 }
 
 

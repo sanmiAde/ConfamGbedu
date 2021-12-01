@@ -14,6 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.airbnb.mvrx.Fail
+import com.airbnb.mvrx.Loading
+import com.airbnb.mvrx.Success
+import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.sanmidev.confamgbedu.R
@@ -31,23 +35,33 @@ sealed interface GbebuListEvent {
 
 @Composable
 fun GdebuListScreen(navigateToDetails: (GbebuListEvent) -> Unit) {
-    val viewmodel: GbeduListViewModel = mavericksViewModel()
-    val gbeduList by viewmodel.collectAsState(GbeduListState::gbeduList)
-    Column() {
-        LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)) {
-            items(gbeduList) { gbedu ->
-                GbeduRow(gbedu) {
-                    navigateToDetails(GbebuListEvent.EditGbedu(gbedu.gbeduId))
+    val viewModel: GbeduListViewModel = mavericksViewModel()
+    val gbeduList by viewModel.collectAsState(GbeduListState::gbeduListRequest)
+    when (gbeduList) {
+        Uninitialized -> {}
+        is Loading -> {
+            Text(text = "Loading")
+        }
+        is Success -> {
+            Column {
+                LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)) {
+                    items(gbeduList.invoke()!!) { gbedu ->
+                        GbeduRow(gbedu) {
+                            navigateToDetails(GbebuListEvent.EditGbedu(gbedu.gbeduId))
+                        }
+                    }
+                }
+                FloatingActionButton(onClick = {
+                    navigateToDetails(GbebuListEvent.AddGbedu)
+                }) {
+                    Icon(imageVector = Icons.Filled.Add, contentDescription = "Add new gbedu")
                 }
             }
         }
-        FloatingActionButton(onClick = {
-            navigateToDetails(GbebuListEvent.AddGbedu)
-        }) {
-            Icon(imageVector = Icons.Filled.Add, contentDescription = "Add new gbedu")
+        is Fail -> {
+
         }
     }
-
 }
 
 @OptIn(ExperimentalMaterialApi::class)
